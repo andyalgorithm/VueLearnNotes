@@ -113,62 +113,68 @@
 
 >1. 有el选项
 
-    new Vue({
-        el: '#app',
-        beforeCreate: function () {
-            console.log('调用了beforeCreat钩子函数')
-        },
-        created: function () {
-            console.log('调用了created钩子函数')
-        },
-        beforeMount: function () {
-            console.log('调用了beforeMount钩子函数')
-        },
-        mounted: function () {
-            console.log('调用了mounted钩子函数')
-        }
-    })
+```java
+new Vue({
+    el: '#app',
+    beforeCreate: function () {
+        console.log('调用了beforeCreat钩子函数')
+    },
+    created: function () {
+        console.log('调用了created钩子函数')
+    },
+    beforeMount: function () {
+        console.log('调用了beforeMount钩子函数')
+    },
+    mounted: function () {
+        console.log('调用了mounted钩子函数')
+    }
+})
+```
 
 结果:
 ![有el](./images/3.png)
 
 >2. 无el选项
 
-    new Vue({
-        beforeCreate: function () {
-            console.log('调用了beforeCreat钩子函数')
-        },
-        created: function () {
-            console.log('调用了created钩子函数')
-        },
-        beforeMount: function () {
-            console.log('调用了beforeMount钩子函数')
-        },
-        mounted: function () {
-            console.log('调用了mounted钩子函数')
-        }
-    })
+```javascript
+new Vue({
+    beforeCreate: function () {
+        console.log('调用了beforeCreat钩子函数')
+    },
+    created: function () {
+        console.log('调用了created钩子函数')
+    },
+    beforeMount: function () {
+        console.log('调用了beforeMount钩子函数')
+    },
+    mounted: function () {
+        console.log('调用了mounted钩子函数')
+    }
+})
+```
 
 结果：
 ![无el](./images/4.png)
 
 >证明没有el选项，则停止编译，也意味着暂时停止了生命周期。生命周期到created钩子函数就结束了。而当我们不加el选项，但是手动执行vm.$mount(el)方法的话，也能够使暂停的生命周期进行下去，例如：
 
-    var app = new Vue({
-        beforeCreate: function () {
-            console.log('调用了beforeCreat钩子函数')
-        },
-        created: function () {
-            console.log('调用了created钩子函数')
-        },
-        beforeMount: function () {
-            console.log('调用了beforeMount钩子函数')
-        },
-        mounted: function () {
-            console.log('调用了mounted钩子函数')
-        }
-    })
-    app.$mount('#app')
+```javascript
+var app = new Vue({
+    beforeCreate: function () {
+        console.log('调用了beforeCreat钩子函数')
+    },
+    created: function () {
+        console.log('调用了created钩子函数')
+    },
+    beforeMount: function () {
+        console.log('调用了beforeMount钩子函数')
+    },
+    mounted: function () {
+        console.log('调用了mounted钩子函数')
+    }
+})
+app.$mount('#app')
+```
 
 结果：
 ![有el](./images/3.png)
@@ -179,19 +185,21 @@
 
 >同时使用`template`和`HTML`，查看优先级：
 
-        <h1>测试template和HTML的优先级</h1>
-        <div id="app">
-            <p>HTML优先</p>
-        </div>
-        <script>
-            var app = new Vue({
-                el:"#app",
-                data:{
-                    msg:"template优先"
-                },
-                template:"<p>{{msg}}</p>",
-            });
-        </script>
+```html
+    <h1>测试template和HTML的优先级</h1>
+    <div id="app">
+        <p>HTML优先</p>
+    </div>
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                msg:"template优先"
+            },
+            template:"<p>{{msg}}</p>",
+        });
+    </script>
+```
 
 结果：
 ![template](./images/6.png)
@@ -210,12 +218,14 @@
 <hr>
 
 
-    new Vue({
-        el: '#app',
-        render (createElement) {
-            return (....)
-        }
-    })
+```javascript
+new Vue({
+    el: '#app',
+    render (createElement) {
+        return (....)
+    }
+})
+```
 
 ### 13.2.4	beforeMount和mounted钩子函数间的生命周期
 
@@ -238,44 +248,48 @@
 
 如果待修改的数据没有载入模板中，不会调用这里两个钩子函数
 
-    var app = new Vue({
-        el: '#app',
-        data: {
-            msg: 1
-        },
-        template: '<div id="app"><p></p></div>',
-        beforeUpdate: function () {
-            console.log('调用了beforeUpdate钩子函数')
-        },
-        updated: function () {
-            console.log('调用了updated钩子函数')
-        }
-    })
-    app.msg = 2
+```javascript
+var app = new Vue({
+    el: '#app',
+    data: {
+        msg: 1
+    },
+    template: '<div id="app"><p></p></div>',
+    beforeUpdate: function () {
+        console.log('调用了beforeUpdate钩子函数')
+    },
+    updated: function () {
+        console.log('调用了updated钩子函数')
+    }
+})
+app.msg = 2
+```
 
 结果：
 ![9](./images/9.png)
 如果绑定了数据，会调用两个钩子函数：
 
-    <h1>测试有数据绑定修改数据，钩子函数调用情况</h1>
-    <div id="app">
-    </div>
-    <script>
-        var app = new Vue({
-            el:"#app",
-            template:"<p>{{msg}}</p>",
-            data:{
-                msg:"原数据"
-            },
-            beforeUpdate: function () {
-                console.log("调用了beforeUpdate钩子函数")
-            },
-            updated: function () {
-                console.log("调用了updated钩子函数");
-            },
-        });
-        app.msg = "数据被修改了";
-    </script>
+```html
+<h1>测试有数据绑定修改数据，钩子函数调用情况</h1>
+<div id="app">
+</div>
+<script>
+    var app = new Vue({
+        el:"#app",
+        template:"<p>{{msg}}</p>",
+        data:{
+            msg:"原数据"
+        },
+        beforeUpdate: function () {
+            console.log("调用了beforeUpdate钩子函数")
+        },
+        updated: function () {
+            console.log("调用了updated钩子函数");
+        },
+    });
+    app.msg = "数据被修改了";
+</script>
+```
 
 结果：
 ![10](./images/10.png)
