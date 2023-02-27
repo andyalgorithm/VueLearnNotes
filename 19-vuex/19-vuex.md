@@ -328,12 +328,12 @@ computed: {
 ```
 computed: {
     stuCount() {
-      return this.$store.getters.getStudents
+      return this.$store.getters.getStudentCounts
     }
   }
 ```
 
-现在只需要调用getters的getStudents对象，就能获取数量。
+现在只需要调用getters的getStudentCounts对象，就能获取数量。
 
 如果你想查询指定ID（传入ID）的学生信息。
 
